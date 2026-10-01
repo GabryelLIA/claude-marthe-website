@@ -1,8 +1,8 @@
 ﻿TITRE,CATEGORIE,DIMENSIONS (l x H),TECHNIQUE,TYPE DE TABLEAU,PRIX,DISPONIBILITE,TEXTE
-Âmes Profondes,vertical,64.5 x 50 cm,Aquarelle et encre de Chine,Aquarelle,650,Original,
+Âmes Profondes,horizontal,64.5 x 50 cm,Aquarelle et encre de Chine,Aquarelle,650,Original,
 Dépression,horizontal,129.5 x 96.5 cm,Technique mixte,Tableau,2000,Original,
-Les Gens,horizontal,80 x 60 cm,Technique mixte,Tableau,900,Original,
-Les Invisibles,horizontal,65.5 x 91 cm,Acrylique,Acrylique,1050,Original,
+Les Gens,vertical,80 x 60 cm,Technique mixte,Tableau,900,Original,
+Les Invisibles,vertical,65.5 x 91 cm,Acrylique,Acrylique,1050,Original,
 L'Origine,vertical,18 x 26 cm,Aquarelle et encre de Chine,Aquarelle,180,Original,
 Poésie de l'Eau,horizontal,80 x 60 cm,Technique mixte,Tableau,950,Original,
 Portes des Mondes,vertical, x  cm,,,,Original vendu - Disponible en tirage d'art,
@@ -22,4 +22,4 @@ Vers l'Inconscient,vertical-narrow, x  cm,,,,Original vendu - Disponible en tira
 Sans Titre 1,vertical-narrow,15 x 29.5 cm,Aquarelle et encre de Chine,Aquarelle,95,Original,
 Sans titre 2,vertical-narrow,15 x 29.5 cm,Aquarelle et encre de Chine,Aquarelle,95,Original,
 Angoisses,horizontal,,,,,,
-Point de vue Intergénarationnel - Vue d'ensemble,Horizontal-wide,,,,,,
+Point de vue Intergénérationnel - Vue d'ensemble,horizontal-wide,,,,,,

@@ -27,41 +27,44 @@ defineProps<{ oeuvre: Oeuvre }>();
 .carte {
   display: flex;
   flex-direction: column;
-  gap: 0.9rem;
+  gap: 1.1rem;
 }
 
 .carte__cadre {
   display: block;
-  padding: 0.55rem;
+  padding: 0.7rem;
   background: var(--encre);
   border: 1px solid var(--bordure);
   border-radius: var(--rayon);
   box-shadow: var(--ombre-cadre);
+  overflow: hidden; /* le zoom de l'œuvre reste dans le cadre */
   transition:
     transform var(--vitesse) var(--easing),
     box-shadow var(--vitesse) var(--easing),
     border-color var(--vitesse) var(--easing);
 
   img {
-    height: var(--hauteur-image, 20rem);
+    /* Hauteur de rangée × facteur par catégorie (calibré pour 3 œuvres par rangée) */
+    height: calc(var(--hauteur-image, 24rem) * var(--facteur, 1));
     width: auto;
     max-width: 100%;
     margin-inline: auto;
     object-fit: contain;
-    filter: saturate(0.92) brightness(0.96);
-    transition: filter var(--vitesse) var(--easing);
+    filter: saturate(0.96) brightness(0.98); /* l'œuvre reste éclatante au repos */
+    transition: filter var(--vitesse) var(--easing), transform 1.4s var(--easing);
   }
 }
 
-/* L'œuvre s'éveille au survol : halo de lune */
+/* L'œuvre s'éveille au survol : halo de lune + zoom lent */
 .carte:hover .carte__cadre,
 .carte:focus-visible .carte__cadre {
   border-color: var(--bordure-forte);
   box-shadow: var(--halo-lune), var(--ombre-cadre);
-  transform: translateY(-0.3rem);
+  transform: translateY(-0.35rem);
 
   img {
     filter: none;
+    transform: scale(1.04);
   }
 }
 
@@ -74,13 +77,13 @@ defineProps<{ oeuvre: Oeuvre }>();
 
 .carte__titre {
   font-family: var(--police-titres);
-  font-size: 1.15rem;
+  font-size: 1.4rem;
   letter-spacing: 0.04em;
   color: var(--argent);
 }
 
 .carte__prix {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   letter-spacing: 0.14em;
   color: var(--brume);
   white-space: nowrap;

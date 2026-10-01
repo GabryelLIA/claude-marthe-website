@@ -26,8 +26,9 @@
 
   /* Rythme */
   --souffle: clamp(1.25rem, 3vw, 2rem);
+  --marge: clamp(1rem, 2vw, 2.25rem); /* gouttière de page, volontiers fine */
   --respiration: clamp(2.5rem, 7vw, 6rem);
-  --largeur: min(76rem, 100% - 2 * var(--souffle));
+  --largeur: min(76rem, 100% - 2 * var(--marge));
 
   --vitesse: 0.45s;
   --easing: cubic-bezier(0.25, 0.6, 0.3, 1);
@@ -53,6 +54,7 @@
 html {
   color-scheme: dark;
   scroll-behavior: smooth;
+  overflow-x: clip; /* les rangées à 96rem ne doivent pas créer de scroll horizontal */
 
   &.sans-defilement {
     overflow: hidden;
