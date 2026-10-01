@@ -1,0 +1,21 @@
+{
+  "name": "claude-marthe-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "donnees": "node scripts/csv-to-json.mjs",
+    "predev": "node scripts/csv-to-json.mjs",
+    "dev": "nuxt dev",
+    "prebuild": "node scripts/csv-to-json.mjs",
+    "build": "nuxt build",
+    "pregenerate": "node scripts/csv-to-json.mjs",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "nuxt": "^4.0.0",
+    "vue": "^3.5.0",
+    "vue-router": "^4.5.0"
+  }
+}
