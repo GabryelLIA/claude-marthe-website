@@ -23,6 +23,23 @@ const badge = computed(() => {
   if (enTirage(oeuvre)) return { libelle: 'Original vendu · tirage fine art sur demande', ton: 'tirage' };
   return { libelle: oeuvre.disponibilite ?? '', ton: 'neutre' };
 });
+
+/* Se cale juste après le haut de page (1 px) : le header y est déjà dans
+   son état compact (voir SiteHeader.vue) et l'œuvre occupe le cadre.
+   - onMounted : chargements directs et rafraîchissements
+   - watch(slug) : navigations précédente/suivante (composant réutilisé)
+   Le garde-fou scrollY === 0 préserve une position restaurée par le
+   navigateur (précédent/suivant) ; double rAF pour passer après le
+   scroll du routeur. */
+const calerLeScroll = () => {
+  nextTick(() => {
+    requestAnimationFrame(() => {
+      if (window.scrollY === 0) window.scrollTo(0, 1);
+    });
+  });
+};
+onMounted(calerLeScroll);
+watch(() => route.params.slug, calerLeScroll);
 </script>
 
 <template>

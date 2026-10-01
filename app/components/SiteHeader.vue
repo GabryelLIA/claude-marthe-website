@@ -45,6 +45,18 @@ const liens = [
   justify-content: space-between;
   gap: 0.75rem var(--souffle);
   padding-block: 0.9rem;
+
+  /* Header qui se compacte dès qu'on quitte le haut de page (CSS pur,
+     animation pilotée par le scroll ; ignorée si non supportée) */
+  animation: entete-compacte auto linear both;
+  animation-timeline: scroll(root block);
+  animation-range: 0 10rem;
+}
+
+@keyframes entete-compacte {
+  to {
+    padding-block: 0.3rem;
+  }
 }
 
 .entete__logo img {
@@ -52,9 +64,18 @@ const liens = [
   width: auto;
   opacity: 0.92;
   transition: opacity var(--vitesse) var(--easing);
+  animation: logo-compacte auto linear both;
+  animation-timeline: scroll(root block);
+  animation-range: 0 10rem;
 
   &:hover {
     opacity: 1;
+  }
+}
+
+@keyframes logo-compacte {
+  to {
+    height: 2.2rem;
   }
 }
 
@@ -75,6 +96,9 @@ const liens = [
   text-transform: uppercase;
   color: var(--brume);
   transition: color var(--vitesse) var(--easing);
+  animation: lien-compacte auto linear both;
+  animation-timeline: scroll(root block);
+  animation-range: 0 10rem;
 
   /* Filet lunaire qui se dessine sous le lien */
   &::after {
@@ -98,6 +122,12 @@ const liens = [
     &::after {
       transform: scaleX(1);
     }
+  }
+}
+
+@keyframes lien-compacte {
+  to {
+    padding-block: 0.1rem;
   }
 }
 </style>
