@@ -15,6 +15,11 @@ export interface Oeuvre {
   disponibilite: string | null;
   texte: string | null;
   image: string;
+  largeur: number;
+  miniature: string;
+  largeurMiniature: number;
+  moyenne: string;
+  largeurMoyenne: number;
 }
 
 export const useOeuvres = (): Oeuvre[] => donnees.oeuvres as Oeuvre[];

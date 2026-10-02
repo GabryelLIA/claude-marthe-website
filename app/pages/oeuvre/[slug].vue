@@ -34,7 +34,12 @@ const badge = computed(() => {
 
       <div class="oeuvre__scene" :data-categorie="oeuvre.categorie">
         <figure class="oeuvre__cadre">
-          <img :src="oeuvre.image" :alt="oeuvre.titre" />
+          <img
+            :src="oeuvre.image"
+            :alt="oeuvre.titre"
+            decoding="async"
+            fetchpriority="high"
+          />
         </figure>
 
         <aside class="oeuvre__fiche">

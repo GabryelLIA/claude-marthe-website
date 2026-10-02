@@ -16,7 +16,7 @@ useHead({
 
       <div class="propos__corps">
         <figure v-if="songeLunaire" class="propos__portrait">
-          <img :src="songeLunaire.image" :alt="songeLunaire.titre" loading="lazy" />
+          <img :src="songeLunaire.moyenne" :alt="songeLunaire.titre" loading="lazy" decoding="async" />
           <figcaption>{{ songeLunaire.titre }} — {{ songeLunaire.technique }}</figcaption>
         </figure>
 
@@ -24,7 +24,7 @@ useHead({
           <p>
             Claude Marthe peint la nuit — non pas celle qui repose, mais celle qui
             travaille. Ses toiles rassemblent ce que le jour dissout : des figures
-            aux contours hésitants, des seuils entrevecrés, des eaux où se reflète
+            aux contours hésitants, des yeux qui observent, des eaux où se reflète
             quelque chose qui n’est pas exactement un visage.
           </p>
           <p>
@@ -35,10 +35,10 @@ useHead({
             disent moins des sujets que des états.
           </p>
           <p>
-            Son œuvre habite un territoire feutré, entre le songe et les terreurs
-            nocturnes : jamais le cri, toujours le frisson. Ce qui intéresse
+            Son œuvre habite un territoire étrange, entre le songe et les terreurs
+            nocturnes. Pas de cri mais un frisson. Ce qui intéresse
             l’artiste, c’est l’instant où l’ombre n’est plus décor mais présence —
-            où l’on comprend que la nuit nous regarde aussi.
+            où l’on comprend que la nuit, elle aussi, nous regarde.
           </p>
           <p class="propos__exergue">
             « Je ne peins pas des cauchemars. Je peins ce qui reste, au matin,

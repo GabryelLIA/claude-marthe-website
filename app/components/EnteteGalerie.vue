@@ -4,11 +4,11 @@ defineProps<{ surtitre: string; intro?: string }>();
 
 <template>
   <header class="entete-galerie">
-    <div class="entete-galerie__texte">
+    <div class="entete-galerie__titre">
       <p class="surtitre">{{ surtitre }}</p>
       <h1><slot /></h1>
-      <p v-if="intro" class="entete-galerie__intro">{{ intro }}</p>
     </div>
+    <p v-if="intro" class="entete-galerie__intro">{{ intro }}</p>
     <div v-if="$slots.actions" class="entete-galerie__actions">
       <slot name="actions" />
     </div>
@@ -25,15 +25,15 @@ defineProps<{ surtitre: string; intro?: string }>();
   margin-block: calc(var(--respiration) * 0.5) var(--respiration);
 }
 
-.entete-galerie__texte {
+.entete-galerie__titre {
   display: flex;
   flex-direction: column;
   gap: 1.1rem;
-  max-width: 38rem;
+  max-width: 34rem
 }
 
 .entete-galerie__intro {
+  max-width: 26rem;
   color: var(--brume);
-  max-width: 34rem;
 }
 </style>

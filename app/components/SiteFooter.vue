@@ -1,9 +1,8 @@
 <template>
   <footer class="pied">
     <div class="conteneur pied__interieur">
-      <p class="pied__signature">Claude Marthe <span>—</span> Songes &amp; terreurs nocturnes</p>
+      <p class="pied__signature">Claude Marthe · Artiste-peintre et sculptrice <span>—</span> Songes &amp; terreurs nocturnes</p>
       <p class="pied__mention">
-        Œuvres reproduites avec l’accord de l’artiste ·
         <NuxtLink to="/contact">me contacter</NuxtLink>
       </p>
     </div>

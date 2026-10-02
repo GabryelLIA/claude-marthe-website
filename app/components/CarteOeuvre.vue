@@ -8,11 +8,12 @@ defineProps<{ oeuvre: Oeuvre }>();
   <NuxtLink :to="`/oeuvre/${oeuvre.slug}`" class="carte">
     <span class="carte__cadre">
       <img
-        :src="oeuvre.image"
+        :src="oeuvre.miniature"
+        :srcset="`${oeuvre.miniature} ${oeuvre.largeurMiniature}w, ${oeuvre.moyenne} ${oeuvre.largeurMoyenne}w, ${oeuvre.image} ${oeuvre.largeur}w`"
+        sizes="(width < 45rem) 85vw, 45rem"
         :alt="oeuvre.titre"
         loading="lazy"
-        :width="800"
-        :height="1000"
+        decoding="async"
       />
     </span>
     <span class="carte__legende">

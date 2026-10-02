@@ -29,7 +29,7 @@ useHead({
           <dl>
             <div>
               <dt>Atelier</dt>
-              <dd>Sur rendez-vous, Paris</dd>
+              <dd>Sur rendez-vous, Bordeaux</dd>
             </div>
             <div>
               <dt>Courriel</dt>

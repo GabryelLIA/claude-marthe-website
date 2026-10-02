@@ -26,7 +26,14 @@ useHead({
           :to="`/oeuvre/${oeuvre.slug}`"
           class="tirage"
         >
-          <img :src="oeuvre.image" :alt="oeuvre.titre" loading="lazy" />
+          <img
+            :src="oeuvre.miniature"
+            :srcset="`${oeuvre.miniature} ${oeuvre.largeurMiniature}w, ${oeuvre.moyenne} ${oeuvre.largeurMoyenne}w`"
+            sizes="(width < 55rem) 45vw, 20rem"
+            :alt="oeuvre.titre"
+            loading="lazy"
+            decoding="async"
+          />
           <span class="tirage__voile">
             <span class="tirage__titre">{{ oeuvre.titre }}</span>
             <span class="tirage__mention">Original vendu · tirage sur demande</span>
