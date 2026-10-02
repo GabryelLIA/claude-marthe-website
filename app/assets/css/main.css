@@ -25,8 +25,9 @@
   --police-texte: 'Jost', 'Segoe UI', sans-serif;
 
   /* Rythme */
+  --petite-marge: clamp(0.5rem, 1vw, 2rem);
+  --marge: clamp(1rem, 2vw, 2.25rem);
   --souffle: clamp(1.25rem, 3vw, 2rem);
-  --marge: clamp(1rem, 2vw, 2.25rem); /* gouttière de page, volontiers fine */
   --respiration: clamp(2.5rem, 7vw, 6rem);
   --largeur: min(76rem, 100% - 2 * var(--marge));
 

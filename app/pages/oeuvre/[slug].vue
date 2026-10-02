@@ -32,7 +32,7 @@ const badge = computed(() => {
         <NuxtLink to="/">← Retour aux tableaux</NuxtLink>
       </nav>
 
-      <div class="oeuvre__scene">
+      <div class="oeuvre__scene" :data-categorie="oeuvre.categorie">
         <figure class="oeuvre__cadre">
           <img :src="oeuvre.image" :alt="oeuvre.titre" />
         </figure>
@@ -87,7 +87,7 @@ const badge = computed(() => {
 
 <style scoped>
 .oeuvre__retour {
-  margin-bottom: var(--souffle);
+  margin-bottom: var(--petite-marge);
 
   a {
     font-size: 0.8rem;
@@ -103,23 +103,55 @@ const badge = computed(() => {
 }
 
 .oeuvre__scene {
+  /* Hauteur utile : tout ce que la fenêtre laisse sous le header compact */
+  --hauteur-utile: calc(100dvh - 9rem);
+
+  /* La scène déborde du conteneur des deux côtés (comme galerie__oeuvres) :
+     l'œuvre gagne la largeur à gauche, la fiche déborde à droite */
+  --largeur-scene: min(100vw - 2 * var(--marge), 100rem);
+  width: var(--largeur-scene);
+  margin-inline: calc((100% - var(--largeur-scene)) / 2);
+
+  /* Facteur par catégorie, à l'identique de la galerie :
+     les horizontaux (limités par la largeur de colonne) ont le plus gros
+     facteur pour utiliser chaque pixel de hauteur que la largeur permet */
+  --facteur: 1;
+
+  &[data-categorie='horizontal'],
+  &[data-categorie='horizontal-wide'] {
+    --facteur: 1.5;
+  }
+
+  /* Verticaux : le cadre épouse l'œuvre (fini le padding horizontal
+     ridicule), centré dans l'espace laissé devant la fiche */
+  &[data-categorie='vertical'],
+  &[data-categorie='vertical-narrow'] {
+    --facteur: 1.05;
+  }
+
+
+
   display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(18rem, 0.75fr);
-  gap: var(--respiration);
+  grid-template-columns: minmax(0, 1fr) clamp(15rem, 22vw, 20rem);
+  gap: var(--souffle); /* réduit : la scène profite à l'œuvre, pas aux marges */
   align-items: start;
 }
 
 .oeuvre__cadre {
   display: grid;
   place-items: center;
-  padding: clamp(0.8rem, 2vw, 1.6rem);
+  min-height: var(--hauteur-utile); /* le cadre occupe toute la hauteur disponible */
+  padding-block: 0.15rem;           /* quasi nul : l'œuvre touche presque le cadre */
+  padding-inline: clamp(0.8rem, 2vw, 1.6rem);
   background: var(--encre);
   border: 1px solid var(--bordure);
   border-radius: var(--rayon);
   box-shadow: var(--halo-lune), var(--ombre-cadre);
 
   img {
-    max-height: 78dvh;
+    max-height: calc(var(--hauteur-utile) * var(--facteur, 1));
+    width: auto;
+    max-width: 100%;
     object-fit: contain;
   }
 }
@@ -226,6 +258,9 @@ const badge = computed(() => {
 @media (width < 55rem) {
   .oeuvre__scene {
     grid-template-columns: 1fr;
+
+    /* En colonne, la fenêtre est entièrement dédiée à l'œuvre */
+    --hauteur-utile: calc(100dvh - 12rem);
   }
 
   .oeuvre__fiche {
