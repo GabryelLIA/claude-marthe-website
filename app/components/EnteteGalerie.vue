@@ -33,7 +33,7 @@ defineProps<{ surtitre: string; intro?: string }>();
 }
 
 .entete-galerie__intro {
-  max-width: 26rem;
+  max-width:26rem;
   color: var(--brume);
 }
 </style>

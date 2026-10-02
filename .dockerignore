@@ -1,0 +1,10 @@
+node_modules
+.nuxt
+.output
+public/images
+public/logo-claude-marthe.svg
+ClaudeMartheDetailsSite.json
+Dockerfile
+scripts/docker.sh
+*.md
+.git
