@@ -24,7 +24,7 @@ useHead({
         <NuxtLink
           v-for="oeuvre in tirages"
           :key="oeuvre.slug"
-          :to="`/oeuvre/${oeuvre.slug}`"
+          :to="{ path: `/oeuvre/${oeuvre.slug}`, query: { vue: 'tirage' } }"
           class="tirage"
         >
           <img

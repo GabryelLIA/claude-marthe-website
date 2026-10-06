@@ -13,10 +13,40 @@ useHead(() => ({
   meta: [{ name: 'description', content: `${oeuvre.titre} — ${oeuvre.technique}` }],
 }));
 
-/* Navigation parmi toutes les œuvres, dans l'ordre de la galerie */
-const index = oeuvres.findIndex((o) => o.slug === oeuvre.slug);
-const precedente = index > 0 ? oeuvres[index - 1] : null;
-const suivante = index < oeuvres.length - 1 ? oeuvres[index + 1] : null;
+/* Provenance de la navigation :
+   — depuis les Tableaux (défaut) : dimensions et prix de l'original
+   — depuis les Tirages fine art (?vue=tirage) : formats et prix des tirages */
+const vueTirage = computed(
+  () => String(route.query.vue) === 'tirage' && oeuvre.tiragesFineArt.length > 0,
+);
+
+/* Circulation : parmi toutes les œuvres (Tableaux) ou seulement les œuvres tirées */
+const listeCirculation = computed(() =>
+  vueTirage.value ? oeuvres.filter((o) => o.tiragesFineArt.length > 0) : oeuvres,
+);
+const indexCirculation = computed(() =>
+  listeCirculation.value.findIndex((o) => o.slug === oeuvre.slug),
+);
+const precedente = computed(() => {
+  const i = indexCirculation.value;
+  return i > 0 ? listeCirculation.value[i - 1]! : null;
+});
+const suivante = computed(() => {
+  const i = indexCirculation.value;
+  const liste = listeCirculation.value;
+  return i >= 0 && i < liste.length - 1 ? liste[i + 1]! : null;
+});
+
+/* Les liens voisins conservent la provenance */
+const vers = (o: (typeof oeuvres)[number]) =>
+  vueTirage.value ? { path: `/oeuvre/${o.slug}`, query: { vue: 'tirage' } } : `/oeuvre/${o.slug}`;
+
+/* Retour vers la galerie d'origine */
+const retour = computed(() =>
+  vueTirage.value
+    ? { to: '/tirages-fine-art', libelle: '← Retour aux tirages fine art' }
+    : { to: '/', libelle: '← Retour aux tableaux' },
+);
 
 const badge = computed(() => {
   if (estDisponible(oeuvre)) return { libelle: 'Original disponible', ton: 'disponible' };
@@ -29,7 +59,7 @@ const badge = computed(() => {
   <div v-if="oeuvre" class="page">
     <article class="conteneur oeuvre">
       <nav class="oeuvre__retour" aria-label="Retour">
-        <NuxtLink to="/">← Retour aux tableaux</NuxtLink>
+        <NuxtLink :to="retour.to">{{ retour.libelle }}</NuxtLink>
       </nav>
 
       <div class="oeuvre__scene" :data-categorie="oeuvre.categorie">
@@ -53,18 +83,26 @@ const badge = computed(() => {
               <dt>Technique</dt>
               <dd>{{ oeuvre.technique }}</dd>
             </div>
-            <div v-if="oeuvre.dimensions">
-              <dt>Dimensions (l × H)</dt>
-              <dd>{{ oeuvre.dimensions }}</dd>
-            </div>
-            <div v-if="oeuvre.type">
-              <dt>Type</dt>
-              <dd>{{ oeuvre.type }}</dd>
-            </div>
-            <div v-if="oeuvre.prix !== null">
-              <dt>Prix</dt>
-              <dd>{{ formatPrix(oeuvre.prix) }}</dd>
-            </div>
+            <template v-if="vueTirage">
+              <div v-for="(tirage, i) in oeuvre.tiragesFineArt" :key="i">
+                <dt>Tirage fine art</dt>
+                <dd>{{ mentionTirage(tirage) }}</dd>
+              </div>
+            </template>
+            <template v-else>
+              <div v-if="oeuvre.dimensions">
+                <dt>Dimensions (l × H)</dt>
+                <dd>{{ oeuvre.dimensions }}</dd>
+              </div>
+              <div v-if="oeuvre.type">
+                <dt>Type</dt>
+                <dd>{{ oeuvre.type }}</dd>
+              </div>
+              <div v-if="oeuvre.prix !== null">
+                <dt>Prix</dt>
+                <dd>{{ formatPrix(oeuvre.prix) }}</dd>
+              </div>
+            </template>
           </dl>
 
           <NuxtLink to="/contact" class="bouton bouton--plein">
@@ -74,12 +112,12 @@ const badge = computed(() => {
       </div>
 
       <nav class="oeuvre__circulation" aria-label="Œuvres voisines">
-        <NuxtLink v-if="precedente" :to="`/oeuvre/${precedente.slug}`" class="oeuvre__voisine oeuvre__voisine--avant">
+        <NuxtLink v-if="precedente" :to="vers(precedente)" class="oeuvre__voisine oeuvre__voisine--avant">
           <span>Précédente</span>
           {{ precedente.titre }}
         </NuxtLink>
         <span v-else />
-        <NuxtLink v-if="suivante" :to="`/oeuvre/${suivante.slug}`" class="oeuvre__voisine oeuvre__voisine--apres">
+        <NuxtLink v-if="suivante" :to="vers(suivante)" class="oeuvre__voisine oeuvre__voisine--apres">
           <span>Suivante</span>
           {{ suivante.titre }}
         </NuxtLink>
