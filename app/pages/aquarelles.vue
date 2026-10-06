@@ -19,7 +19,7 @@ useHead({
         </template>
       </EnteteGalerie>
 
-      <GalerieRangees :oeuvres="aquarelles" />
+      <GalerieRangees :oeuvres="aquarelles" provenance="aquarelles" />
     </section>
 
     <DiaporamaPleinEcran v-if="diaporamaActif" :oeuvres="aquarelles" @fermer="diaporamaActif = false" />

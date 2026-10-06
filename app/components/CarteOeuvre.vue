@@ -1,11 +1,17 @@
 <script setup lang="ts">
 import type { Oeuvre } from '~/composables/useOeuvres';
 
-defineProps<{ oeuvre: Oeuvre }>();
+const props = defineProps<{ oeuvre: Oeuvre; provenance?: string }>();
+
+const vers = computed(() =>
+  props.provenance
+    ? { path: `/oeuvre/${props.oeuvre.slug}`, query: { provenance: props.provenance } }
+    : `/oeuvre/${props.oeuvre.slug}`,
+);
 </script>
 
 <template>
-  <NuxtLink :to="`/oeuvre/${oeuvre.slug}`" class="carte">
+  <NuxtLink :to="vers" class="carte">
     <span class="carte__cadre">
       <img
         :src="oeuvre.miniature"

@@ -10,6 +10,43 @@ const enPause = ref(false);
 const duree = 5000;
 let minuterie: ReturnType<typeof setInterval> | undefined;
 
+/* Les commandes s'effacent après 2 s sans mouvement de souris,
+   ou se montrent/cache au toucher sur écran tactile */
+const interfaceVisible = ref(true);
+let minuterieInterface: ReturnType<typeof setTimeout> | undefined;
+let ignorerMouvementEmule = false;
+let dernierContactTactile = 0;
+
+const montrerInterface = (evenement?: Event) => {
+  /* Après un appui tactile, le navigateur émule un mousemove : on l'ignore */
+  if (ignorerMouvementEmule && evenement?.type === 'mousemove') {
+    ignorerMouvementEmule = false;
+    return;
+  }
+  interfaceVisible.value = true;
+  clearTimeout(minuterieInterface);
+  minuterieInterface = setTimeout(() => (interfaceVisible.value = false), 2000);
+};
+
+const surContactTactile = (evenement: TouchEvent) => {
+  dernierContactTactile = performance.now();
+  const cible = evenement.target as HTMLElement | null;
+  /* Un appui sur un bouton laisse le clic natif faire son effet */
+  if (cible?.closest('.diaporama__bouton')) return;
+  interfaceVisible.value = !interfaceVisible.value;
+  clearTimeout(minuterieInterface);
+  if (interfaceVisible.value) {
+    minuterieInterface = setTimeout(() => (interfaceVisible.value = false), 2000);
+  }
+  ignorerMouvementEmule = true;
+};
+
+const surClic = () => {
+  /* Évite de fermer le diaporama lors du clic émulé après un appui tactile */
+  if (performance.now() - dernierContactTactile < 500) return;
+  emit('fermer');
+};
+
 const suivant = () => {
   index.value = (index.value + 1) % props.oeuvres.length;
 };
@@ -49,11 +86,17 @@ const surTouche = (evenement: KeyboardEvent) => {
 onMounted(() => {
   document.documentElement.classList.add('sans-defilement');
   window.addEventListener('keydown', surTouche);
+  window.addEventListener('mousemove', montrerInterface);
+  window.addEventListener('touchstart', surContactTactile, { passive: true });
+  montrerInterface();
 });
 
 onBeforeUnmount(() => {
   document.documentElement.classList.remove('sans-defilement');
   window.removeEventListener('keydown', surTouche);
+  window.removeEventListener('mousemove', montrerInterface);
+  window.removeEventListener('touchstart', surContactTactile);
+  clearTimeout(minuterieInterface);
 });
 </script>
 
@@ -61,10 +104,11 @@ onBeforeUnmount(() => {
   <Teleport to="body">
     <div
       class="diaporama"
+      :class="{ 'sans-interface': !interfaceVisible }"
       role="dialog"
       aria-modal="true"
       aria-label="Diaporama des œuvres"
-      @click.self="emit('fermer')"
+      @click.self="surClic"
     >
       <Transition name="voile" mode="out-in">
         <figure :key="index" class="diaporama__scene">
@@ -128,19 +172,24 @@ onBeforeUnmount(() => {
 .diaporama__scene {
   place-self: center;
   margin: 0;
+  overflow: hidden;
 
   img {
-    max-height: 76dvh;
-    max-width: min(88vw, 70rem);
-    margin-inline: auto;
+    height: 100dvh;
+    max-width: 100vw;
     object-fit: contain;
-    box-shadow: var(--halo-lune), var(--ombre-cadre);
   }
 
   /* Dérive lente, comme un songe */
   img.est-en-mouvement {
     animation: deriver 9s ease-out forwards;
   }
+}
+
+.diaporama.sans-interface .diaporama__legende,
+.diaporama.sans-interface .diaporama__commandes {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .diaporama__legende {
@@ -151,6 +200,7 @@ onBeforeUnmount(() => {
   gap: 0.3rem;
   text-align: center;
   pointer-events: none;
+  transition: opacity 0.6s var(--easing);
 }
 
 .diaporama__titre {
@@ -175,6 +225,7 @@ onBeforeUnmount(() => {
   align-items: center;
   justify-content: center;
   gap: 0.7rem;
+  transition: opacity 0.6s var(--easing);
 }
 
 .diaporama__bouton {

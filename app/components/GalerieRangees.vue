@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Oeuvre } from '~/composables/useOeuvres';
 
-const props = defineProps<{ oeuvres: Oeuvre[] }>();
+const props = defineProps<{ oeuvres: Oeuvre[]; provenance?: string }>();
 
 const { oeuvres } = toRefs(props);
 
@@ -17,7 +17,7 @@ const rangees = computed(() => groupeParCategorie(oeuvres.value));
     <section v-for="[categorie, liste] in rangees" :key="categorie" class="galerie__rangee" :data-categorie="categorie">
       <h2 class="galerie__titre">{{ libelleCategorie(categorie) }}</h2>
       <div class="galerie__oeuvres">
-        <CarteOeuvre v-for="oeuvre in liste" :key="oeuvre.slug" :oeuvre="oeuvre" />
+        <CarteOeuvre v-for="oeuvre in liste" :key="oeuvre.slug" :oeuvre="oeuvre" :provenance="provenance" />
       </div>
     </section>
   </div>

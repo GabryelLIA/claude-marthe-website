@@ -20,6 +20,11 @@ const vueTirage = computed(
   () => String(route.query.vue) === 'tirage' && oeuvre.tiragesFineArt.length > 0,
 );
 
+/* Galerie d'origine (?provenance=aquarelles) : ajuste le lien de retour */
+const provenance = computed(() =>
+  String(route.query.provenance) === 'aquarelles' ? 'aquarelles' : null,
+);
+
 /* Circulation : parmi toutes les œuvres (Tableaux) ou seulement les œuvres tirées */
 const listeCirculation = computed(() =>
   vueTirage.value ? oeuvres.filter((o) => o.tiragesFineArt.length > 0) : oeuvres,
@@ -38,15 +43,18 @@ const suivante = computed(() => {
 });
 
 /* Les liens voisins conservent la provenance */
-const vers = (o: (typeof oeuvres)[number]) =>
-  vueTirage.value ? { path: `/oeuvre/${o.slug}`, query: { vue: 'tirage' } } : `/oeuvre/${o.slug}`;
+const vers = (o: (typeof oeuvres)[number]) => {
+  if (vueTirage.value) return { path: `/oeuvre/${o.slug}`, query: { vue: 'tirage' } };
+  if (provenance.value) return { path: `/oeuvre/${o.slug}`, query: { provenance: provenance.value } };
+  return `/oeuvre/${o.slug}`;
+};
 
 /* Retour vers la galerie d'origine */
-const retour = computed(() =>
-  vueTirage.value
-    ? { to: '/tirages-fine-art', libelle: '← Retour aux tirages fine art' }
-    : { to: '/', libelle: '← Retour aux tableaux' },
-);
+const retour = computed(() => {
+  if (vueTirage.value) return { to: '/tirages-fine-art', libelle: '← Retour aux tirages fine art' };
+  if (provenance.value === 'aquarelles') return { to: '/aquarelles', libelle: '← Retour aux Aquarelles' };
+  return { to: '/', libelle: '← Retour aux tableaux' };
+});
 
 const badge = computed(() => {
   if (estDisponible(oeuvre)) return { libelle: 'Original disponible', ton: 'disponible' };
