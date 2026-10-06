@@ -4,7 +4,7 @@ const champs = reactive({ nom: '', email: '', message: '' });
 const envoyer = () => {
   const objet = encodeURIComponent(`Site Claude Marthe — message de ${champs.nom}`);
   const corps = encodeURIComponent(`${champs.message}\n\n— ${champs.nom} (${champs.email})`);
-  window.location.href = `mailto:contact@claudemarthe.art?subject=${objet}&body=${corps}`;
+  window.location.href = `mailto:contact@claude-marthe.art?subject=${objet}&body=${corps}`;
 };
 
 useHead({
@@ -16,7 +16,7 @@ useHead({
   <div class="page">
     <section class="conteneur contact">
       <header class="titre-section">
-        <p class="surtitre">Faire passer un message dans la nuit</p>
+        <p class="surtitre">Faites-moi passer un message</p>
         <h1>Contact</h1>
       </header>
 
@@ -29,11 +29,11 @@ useHead({
           <dl>
             <div>
               <dt>Atelier</dt>
-              <dd>Sur rendez-vous, Bordeaux</dd>
+              <dd>Sur rendez-vous, Bordeaux, Paris, Annecy</dd>
             </div>
             <div>
               <dt>Courriel</dt>
-              <dd><a href="mailto:contact@claudemarthe.art">contact@claudemarthe.art</a></dd>
+              <dd><a href="mailto:contact@claude-marthe.art">contact@claude-marthe.art</a></dd>
             </div>
             <div>
               <dt>Réponse</dt>

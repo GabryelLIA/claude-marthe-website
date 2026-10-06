@@ -13,7 +13,11 @@ export interface Oeuvre {
   type: string | null;
   prix: number | null;
   disponibilite: string | null;
-  texte: string | null;
+  tiragesFineArt: Array<{
+    dimensions: string;
+    formatCourt: string | null;
+    prix: number | null;
+  }>;
   image: string;
   largeur: number;
   miniature: string;
@@ -26,3 +30,17 @@ export const useOeuvres = (): Oeuvre[] => donnees.oeuvres as Oeuvre[];
 
 export const useOeuvre = (slug: string): Oeuvre | undefined =>
   useOeuvres().find((oeuvre) => oeuvre.slug === slug);
+
+/** Photo de l'artiste (hors œuvres), sérialisée par scripts/csv-to-json.mjs */
+export interface PhotoArtiste {
+  slug: string;
+  image: string;
+  largeur: number;
+  miniature: string;
+  largeurMiniature: number;
+  moyenne: string;
+  largeurMoyenne: number;
+}
+
+export const usePhotoArtiste = (slug: string): PhotoArtiste | undefined =>
+  (donnees.photosArtiste as PhotoArtiste[]).find((photo) => photo.slug === slug);

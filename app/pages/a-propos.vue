@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const songeLunaire = useOeuvre('songe-lunaire');
+const photoContact = usePhotoArtiste('photo-contact-claude-marthe');
 
 useHead({
   title: 'À propos de l’artiste',
@@ -15,9 +15,9 @@ useHead({
       </header>
 
       <div class="propos__corps">
-        <figure v-if="songeLunaire" class="propos__portrait">
-          <img :src="songeLunaire.moyenne" :alt="songeLunaire.titre" loading="lazy" decoding="async" />
-          <figcaption>{{ songeLunaire.titre }} — {{ songeLunaire.technique }}</figcaption>
+        <figure v-if="photoContact" class="propos__portrait">
+          <img :src="photoContact.moyenne" :alt="'Claude Marthe dans son atelier'" loading="lazy" decoding="async" />
+          <figcaption>Claude Marthe</figcaption>
         </figure>
 
         <div class="propos__texte">
@@ -28,7 +28,7 @@ useHead({
             quelque chose qui n’est pas exactement un visage.
           </p>
           <p>
-            Formée à l’aquarelle et à l’encre de Chine, elle a appris des lavis la
+            Inspirée par le maximalisme et l'abstraction, elle a appris de la vie  la
             patience des choses qui apparaissent lentement. Ses œuvres majeures,
             à la technique mixte, étendent ce souffle à plus grand : « Songe
             lunaire », « Entre Deux-Mondes », « Dépression » — des titres qui
@@ -73,7 +73,6 @@ useHead({
   }
 
   figcaption {
-    margin-top: 0.8rem;
     font-size: 0.78rem;
     letter-spacing: 0.16em;
     text-transform: uppercase;

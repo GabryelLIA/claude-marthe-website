@@ -1,5 +1,6 @@
 <script setup lang="ts">
-const tirages = useOeuvres().filter(enTirage);
+/* Toute œuvre éditée en tirages fine art, original encore disponible ou non */
+const tirages = useOeuvres().filter((oeuvre) => oeuvre.tiragesFineArt.length > 0);
 
 useHead({
   title: 'Tirages fine art',
@@ -36,7 +37,7 @@ useHead({
           />
           <span class="tirage__voile">
             <span class="tirage__titre">{{ oeuvre.titre }}</span>
-            <span class="tirage__mention">Original vendu · tirage sur demande</span>
+            <span class="tirage__mention">{{ mentionTirages(oeuvre.tiragesFineArt) }}</span>
           </span>
         </NuxtLink>
       </div>

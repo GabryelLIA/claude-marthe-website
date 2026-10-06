@@ -67,8 +67,6 @@ const badge = computed(() => {
             </div>
           </dl>
 
-          <p v-if="oeuvre.texte" class="oeuvre__texte">{{ oeuvre.texte }}</p>
-
           <NuxtLink to="/contact" class="bouton bouton--plein">
             Renseigner auprès de l’atelier
           </NuxtLink>
@@ -218,11 +216,6 @@ const badge = computed(() => {
     text-align: right;
     color: var(--lune);
   }
-}
-
-.oeuvre__texte {
-  color: var(--brume);
-  font-style: italic;
 }
 
 .oeuvre__circulation {

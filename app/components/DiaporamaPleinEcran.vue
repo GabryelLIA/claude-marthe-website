@@ -28,8 +28,9 @@ const demarrer = () => {
 watch(enPause, demarrer, { immediate: true });
 onUnmounted(() => clearInterval(minuterie));
 
-const oeuvreActive = computed(() => props.oeuvres[index.value]);
-const oeuvreSuivante = computed(() => props.oeuvres[(index.value + 1) % props.oeuvres.length]);
+/* Le diaporama n'est monté qu'avec une liste non vide (données de la galerie) */
+const oeuvreActive = computed(() => props.oeuvres[index.value]!);
+const oeuvreSuivante = computed(() => props.oeuvres[(index.value + 1) % props.oeuvres.length]!);
 
 /* L'œuvre suivante est préchargée : les fondu enchaînés sont instantanés */
 useHead({
