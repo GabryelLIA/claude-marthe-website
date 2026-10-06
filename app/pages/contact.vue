@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const photoContact = usePhotoArtiste('photo-contact-claude-marthe');
+
 const champs = reactive({ nom: '', email: '', message: '' });
 
 const envoyer = () => {

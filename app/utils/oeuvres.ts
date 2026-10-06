@@ -29,15 +29,16 @@ export const estDisponible = (oeuvre: Oeuvre): boolean =>
 export const enTirage = (oeuvre: Oeuvre): boolean =>
   /tirage/i.test(oeuvre.disponibilite ?? '');
 
-/** Mention des tirages fine art disponibles, avec leur prix : « 59,4 x 42 cm (A2) · 120 € » */
+/** Mention d'un tirage fine art, avec son prix : « 59,4 x 42 cm (A2) · 120 € » */
+export const mentionTirage = (tirage: Oeuvre['tiragesFineArt'][number]): string => {
+  const format = tirage.formatCourt ? ` (${tirage.formatCourt})` : '';
+  const prix = tirage.prix !== null ? ` · ${formatPrix(tirage.prix)}` : '';
+  return `${tirage.dimensions}${format}${prix}`;
+};
+
+/** Mentions des tirages fine art disponibles, jointes : « 59,4 x 42 cm (A2) · 120 € — ... */
 export const mentionTirages = (tirages: Oeuvre['tiragesFineArt']): string =>
-  tirages
-    .map((tirage) => {
-      const format = tirage.formatCourt ? ` (${tirage.formatCourt})` : '';
-      const prix = tirage.prix !== null ? ` · ${formatPrix(tirage.prix)}` : '';
-      return `${tirage.dimensions}${format}${prix}`;
-    })
-    .join(' — ');
+  tirages.map(mentionTirage).join(' — ');
 
 /** Regroupe les œuvres par catégorie en conservant l'ordre du CSV */
 export const groupeParCategorie = (oeuvres: Oeuvre[]): Array<[string, Oeuvre[]]> => {

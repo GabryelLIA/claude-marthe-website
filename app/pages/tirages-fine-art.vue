@@ -37,7 +37,11 @@ useHead({
           />
           <span class="tirage__voile">
             <span class="tirage__titre">{{ oeuvre.titre }}</span>
-            <span class="tirage__mention">{{ mentionTirages(oeuvre.tiragesFineArt) }}</span>
+            <span class="tirage__mention">
+              <!-- tirage fine art 1 puis 2, empilés -->
+              <span v-if="oeuvre.tiragesFineArt[0]">{{ mentionTirage(oeuvre.tiragesFineArt[0]) }}</span>
+              <span v-if="oeuvre.tiragesFineArt[1]">{{ mentionTirage(oeuvre.tiragesFineArt[1]) }}</span>
+            </span>
           </span>
         </NuxtLink>
       </div>
@@ -111,5 +115,9 @@ useHead({
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--brume);
+
+  span {
+    display: block;
+  }
 }
 </style>
